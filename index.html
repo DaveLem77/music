@@ -7,88 +7,98 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a1a;color:#f0f0ee;min-height:100vh;font-size:15px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a1a;color:#f0f0ee;min-height:100vh}
 
-/* LOGIN */
 .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1.5rem}
-.login-card{background:#242424;border:1px solid #333;border-radius:18px;padding:2rem;width:100%;max-width:340px}
-.login-logo{font-size:22px;font-weight:600;color:#fff;margin-bottom:4px;letter-spacing:-.3px}
-.login-sub{font-size:13px;color:#777;margin-bottom:2rem}
-.field-label{font-size:12px;color:#888;margin-bottom:6px;display:block}
-.login-card input{width:100%;padding:12px 14px;background:#1a1a1a;border:1px solid #333;border-radius:10px;font-size:15px;color:#fff;font-family:inherit;outline:none;margin-bottom:10px}
+.login-card{background:#242424;border:1px solid #2e2e2e;border-radius:20px;padding:2rem;width:100%;max-width:340px}
+.login-logo{font-size:24px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-.5px}
+.login-sub{font-size:13px;color:#555;margin-bottom:2rem}
+.field-label{font-size:12px;color:#666;margin-bottom:6px;display:block}
+.login-card input{width:100%;padding:13px 14px;background:#1a1a1a;border:1px solid #2e2e2e;border-radius:11px;font-size:15px;color:#fff;font-family:inherit;outline:none;margin-bottom:12px}
 .login-card input:focus{border-color:#4ade80}
-.login-btn{width:100%;padding:13px;background:#4ade80;color:#0a0a0a;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:-.1px}
+.login-btn{width:100%;padding:14px;background:#4ade80;color:#0a0a0a;border:none;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
 .login-btn:active{opacity:.85}
 .login-err{font-size:12px;color:#f87171;margin-top:8px;display:none}
-.api-sep{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #2e2e2e}
-.api-hint{font-size:12px;color:#555;margin-top:6px}
-.api-hint a{color:#4ade80;text-decoration:none}
+.api-sep{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #222}
+.api-hint a{font-size:12px;color:#4ade80;text-decoration:none}
 
-/* DASH */
-.dash{display:none;padding:1rem;max-width:480px;margin:0 auto;padding-bottom:3rem}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-top:.25rem}
+.dash{display:none;padding:1rem 1rem 4rem;max-width:480px;margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-top:.25rem}
 .topbar-left{display:flex;align-items:center;gap:8px}
 .dot-live{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-.app-name{font-size:17px;font-weight:600;letter-spacing:-.3px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.app-name{font-size:18px;font-weight:700;letter-spacing:-.4px;color:#fff}
 .top-right{display:flex;align-items:center;gap:10px}
-.clock{font-size:13px;color:#555;font-variant-numeric:tabular-nums}
-.logout{font-size:12px;color:#555;background:none;border:1px solid #2e2e2e;border-radius:7px;padding:5px 10px;cursor:pointer;color:#666}
+.clock{font-size:13px;color:#444;font-variant-numeric:tabular-nums}
+.logout{font-size:12px;background:none;border:1px solid #2a2a2a;border-radius:8px;padding:5px 11px;cursor:pointer;color:#555;font-family:inherit}
 
-/* METRIC STRIP */
 .metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
-.metric{background:#242424;border-radius:14px;padding:1rem 1.1rem;border:1px solid #2e2e2e}
-.metric-label{font-size:12px;color:#666;margin-bottom:5px}
-.metric-value{font-size:24px;font-weight:600;letter-spacing:-.5px;color:#fff}
-.metric-sub{font-size:12px;margin-top:3px}
-.green{color:#4ade80}.red{color:#f87171}.muted{color:#555}
+.metric{background:#242424;border-radius:16px;padding:1.1rem;border:1px solid #2e2e2e}
+.metric-label{font-size:11px;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.metric-value{font-size:26px;font-weight:700;letter-spacing:-.8px;color:#fff;line-height:1}
+.metric-sub{font-size:12px;margin-top:5px}
+.green{color:#4ade80}.red{color:#f87171}.muted{color:#444}
 
-/* SECTION TITLE */
-.sec{font-size:11px;font-weight:600;color:#555;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;margin-top:1.25rem}
+.sec{font-size:11px;font-weight:600;color:#444;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;margin-top:1.25rem}
 
-/* TOKEN CARDS */
-.tcard{background:#242424;border:1px solid #2e2e2e;border-radius:14px;padding:1rem 1.1rem;margin-bottom:10px}
+.tcard{background:#242424;border:1px solid #2e2e2e;border-radius:16px;padding:1rem 1.1rem;margin-bottom:10px}
 .tcard.fire{border-color:#4ade80;border-width:1.5px}
-.tcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.tcard-name{font-size:14px;font-weight:600;color:#fff;line-height:1.3}
-.tcard-meta{font-size:12px;color:#555;margin-top:3px}
-.badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:.03em;flex-shrink:0;margin-left:8px}
-.b-buy{background:#052e16;color:#4ade80;border:1px solid #166534}
+.tcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.tcard-left{display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0}
+.tcard-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;color:#fff}
+.tcard-name{font-size:14px;font-weight:600;color:#fff;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tcard-meta{font-size:11px;color:#555;margin-top:2px}
+.badge{font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;letter-spacing:.04em;flex-shrink:0;margin-left:8px}
+.b-buy{background:#052e16;color:#4ade80;border:1px solid #14532d}
 .b-watch{background:#1c1400;color:#fbbf24;border:1px solid #78350f}
-.b-hold{background:#1e1e1e;color:#666;border:1px solid #333}
+.b-hold{background:#1e1e1e;color:#555;border:1px solid #2e2e2e}
 .b-sell{background:#1f0000;color:#f87171;border:1px solid #7f1d1d}
 .tcard-row{display:flex;justify-content:space-between;margin-bottom:10px}
-.tcard-stat{}
-.tstat-label{font-size:11px;color:#555;margin-bottom:2px}
-.tstat-val{font-size:14px;font-weight:600;color:#fff}
-.spread-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-.spread-label{font-size:12px;color:#555}
-.spread-val{font-size:13px;font-weight:700}
-.bar{height:4px;background:#2e2e2e;border-radius:2px;overflow:hidden}
-.bar-fill{height:100%;border-radius:2px;transition:width .5s ease}
+.tstat-label{font-size:10px;color:#555;margin-bottom:2px;text-transform:uppercase;letter-spacing:.03em}
+.tstat-val{font-size:14px;font-weight:700;color:#fff}
 
-/* AI BOX */
-.ai-box{background:#242424;border:1px solid #2e2e2e;border-radius:14px;padding:1rem 1.1rem;margin-bottom:10px}
-.ai-text{font-size:14px;line-height:1.7;color:#d0d0cc;min-height:60px}
-.ai-muted{color:#555;font-style:italic}
-.ai-btn{width:100%;margin-top:12px;padding:12px;background:#4ade80;color:#0a0a0a;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
-.ai-btn:active{opacity:.8}
-.ai-btn:disabled{opacity:.4;cursor:default}
+/* PLAYER */
+.player{display:flex;align-items:center;gap:10px;background:#1e1e1e;border-radius:10px;padding:8px 12px;margin-top:10px;border:1px solid #2a2a2a}
+.play-btn{width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#4ade80;transition:all .15s}
+.play-btn:active{transform:scale(.9)}
+.play-btn svg{width:14px;height:14px;fill:#0a0a0a;flex-shrink:0}
+.play-btn.playing{background:#fff}
+.player-info{flex:1;min-width:0}
+.player-title{font-size:12px;color:#aaa;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-status{font-size:11px;color:#444;margin-top:2px}
+.player-status.active{color:#4ade80}
+.progress-wrap{margin-top:6px}
+.progress-track{height:3px;background:#2e2e2e;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:#4ade80;border-radius:2px;width:0%;transition:width .5s linear}
+.preview-badge{font-size:10px;color:#333;flex-shrink:0}
 
-/* CHART */
-.chart-box{background:#242424;border:1px solid #2e2e2e;border-radius:14px;padding:1rem 1.1rem;margin-bottom:10px}
-.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.chart-title{font-size:13px;color:#888}
-.chart-val{font-size:18px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.spread-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.spread-label{font-size:11px;color:#555}
+.spread-val{font-size:14px;font-weight:800;letter-spacing:-.3px}
+.bar{height:3px;background:#252525;border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width .6s ease}
 
-/* FEED */
-.feed-box{background:#242424;border:1px solid #2e2e2e;border-radius:14px;padding:.75rem 1rem;margin-bottom:10px}
-.feed-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #2a2a2a}
+.ai-box{background:#242424;border:1px solid #2e2e2e;border-radius:16px;padding:1.1rem;margin-bottom:10px}
+.ai-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite}
+.ai-label{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.ai-text{font-size:14px;line-height:1.75;color:#ccc;min-height:50px}
+.ai-muted{color:#444;font-style:italic}
+
+.chart-box{background:#242424;border:1px solid #2e2e2e;border-radius:16px;padding:1.1rem;margin-bottom:10px}
+.chart-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.chart-label{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.chart-val{font-size:22px;font-weight:700;letter-spacing:-.5px}
+
+.feed-box{background:#242424;border:1px solid #2e2e2e;border-radius:16px;padding:.85rem 1rem;margin-bottom:10px}
+.feed-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #222}
 .feed-row:last-child{border-bottom:none}
-.fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.fdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:6px}
 .fd-g{background:#4ade80}.fd-y{background:#fbbf24}.fd-b{background:#60a5fa}.fd-r{background:#f87171}
-.ftext{flex:1;font-size:13px;color:#aaa;line-height:1.4}
-.ftime{font-size:11px;color:#444;flex-shrink:0;padding-top:2px}
+.ftext{flex:1;font-size:13px;color:#888;line-height:1.4}
+.ftime{font-size:10px;color:#333;flex-shrink:0;padding-top:3px}
+
+.loading-track{color:#555;font-size:11px;font-style:italic}
 </style>
 </head>
 <body>
@@ -99,12 +109,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="login-sub">Détecteur de royautés sous-évaluées</div>
     <label class="field-label">Mot de passe</label>
     <input type="password" id="pwd" placeholder="••••" onkeydown="if(event.key==='Enter')tryLogin()">
-    <label class="field-label">Clé API Anthropic <span style="color:#444">(pour l'IA)</span></label>
+    <label class="field-label">Clé API Anthropic <span style="color:#333">(optionnel)</span></label>
     <input type="password" id="apikey" placeholder="sk-ant-...">
-    <button class="login-btn" onclick="tryLogin()">Accéder au dashboard</button>
+    <button class="login-btn" onclick="tryLogin()">Accéder</button>
     <div class="login-err" id="err">Mot de passe incorrect</div>
     <div class="api-sep">
-      <div class="api-hint">Pas de clé API? <a href="https://console.anthropic.com" target="_blank">Obtenir gratuitement →</a></div>
+      <div class="api-hint"><a href="https://console.anthropic.com" target="_blank">Obtenir une clé API gratuite →</a></div>
     </div>
   </div>
 </div>
@@ -123,7 +133,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <div class="metrics">
     <div class="metric">
-      <div class="metric-label">Ton capital</div>
+      <div class="metric-label">Capital</div>
       <div class="metric-value">$100</div>
       <div class="metric-sub muted">Départ</div>
     </div>
@@ -133,12 +143,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="metric-sub green" id="m-pnl">+$0.00</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Acheter maintenant</div>
+      <div class="metric-label">BUY actifs</div>
       <div class="metric-value green" id="m-opp">2</div>
       <div class="metric-sub muted">tokens en feu</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Meilleure affaire</div>
+      <div class="metric-label">Meilleur spread</div>
       <div class="metric-value green" id="m-best">+18%</div>
       <div class="metric-sub muted" id="m-best-name">Blinding Lights</div>
     </div>
@@ -147,24 +157,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="sec">Tokens en surveillance</div>
   <div id="tokens-list"></div>
 
-  <div class="sec">Recommandation IA</div>
+  <div class="sec">Analyse IA en direct</div>
   <div class="ai-box">
-    <div class="ai-text" id="ai-out"><span class="ai-muted">Lance l'analyse pour voir la recommandation...</span></div>
-    <button class="ai-btn" id="ai-btn" onclick="runAI()">Analyser les bangers</button>
+    <div class="ai-header">
+      <div class="ai-dot"></div>
+      <div class="ai-label">Banger detector</div>
+    </div>
+    <div class="ai-text" id="ai-out"><span class="ai-muted">Chargement de l'analyse...</span></div>
   </div>
 
-  <div class="sec">Portfolio en direct</div>
+  <div class="sec">Portfolio</div>
   <div class="chart-box">
     <div class="chart-header">
-      <div class="chart-title">Valeur depuis le départ</div>
-      <div class="chart-val" id="chart-val">$100.00</div>
+      <div class="chart-label">Valeur en direct</div>
+      <div class="chart-val green" id="chart-val">$100.00</div>
     </div>
-    <div style="position:relative;height:120px">
+    <div style="position:relative;height:110px">
       <canvas id="pgraph" role="img" aria-label="Graphique portfolio temps réel">Portfolio</canvas>
     </div>
   </div>
 
-  <div class="sec">Activité du bot</div>
+  <div class="sec">Activité bot</div>
   <div class="feed-box" id="feed"></div>
 </div>
 
@@ -175,15 +188,56 @@ let portfolioVal=100;
 let chartInst=null;
 let feedCount=0;
 let startTime=Date.now();
+let currentAudio=null;
+let currentBtn=null;
+let progressInterval=null;
+
+const PLATFORM_COLORS={
+  royal:{bg:'#0d1117',accent:'#1DB954',initials:'R'},
+  another:{bg:'#0d1117',accent:'#ff6b35',initials:'AB'}
+};
 
 const TOKENS=[
-  {name:'Blinding Lights',tag:'#4412',artist:'The Weeknd',platform:'Royal.io',price:87.5,streams:41.2,trend:12.3},
-  {name:'Espresso',tag:'#0091',artist:'Sabrina Carpenter',platform:'AnotherBlock',price:212,streams:58.9,trend:9.1},
-  {name:'Levitating',tag:'#2207',artist:'Dua Lipa',platform:'Royal.io',price:143,streams:29.4,trend:3.2},
-  {name:'APT.',tag:'#8834',artist:'Rose & Bruno Mars',platform:'AnotherBlock',price:319,streams:72.1,trend:-4.8},
-  {name:'BIRDS OF A FEATHER',tag:'#0331',artist:'Billie Eilish',platform:'Royal.io',price:178,streams:44.6,trend:6.7},
-  {name:'Die With A Smile',tag:'#1102',artist:'Lady Gaga & Bruno Mars',platform:'AnotherBlock',price:244,streams:61.3,trend:-2.1},
+  {id:'t1',name:'Blinding Lights',tag:'#4412',artist:'The Weeknd',platform:'royal',price:87.5,streams:41.2,trend:12.3,spotifyId:'0VjIjW4GlUZAMYd2vXMi3b'},
+  {id:'t2',name:'Espresso',tag:'#0091',artist:'Sabrina Carpenter',platform:'royal',price:212,streams:58.9,trend:9.1,spotifyId:'2qSkIjg1o9h3YT9RAgYN75'},
+  {id:'t3',name:'BIRDS OF A FEATHER',tag:'#0331',artist:'Billie Eilish',platform:'royal',price:178,streams:44.6,trend:6.7,spotifyId:'6dOtVTDdiauQNBQEDOtlAB'},
+  {id:'t4',name:'APT.',tag:'#8834',artist:'Rose & Bruno Mars',platform:'another',price:319,streams:72.1,trend:-4.8,spotifyId:'5vNRhkKd0yEAg8suGBpjeY'},
+  {id:'t5',name:'Levitating',tag:'#2207',artist:'Dua Lipa',platform:'another',price:143,streams:29.4,trend:3.2,spotifyId:'463CkQjx2Zfoiqh6zDSo4E'},
+  {id:'t6',name:'Die With A Smile',tag:'#1102',artist:'Lady Gaga & Bruno Mars',platform:'another',price:244,streams:61.3,trend:-2.1,spotifyId:'2plbrEY59IikOBgBGLjaoe'},
 ];
+
+const PREVIEW_URLS={
+  't1':'https://p.scdn.co/mp3-preview/d0f496e96b4b8e10b40d8e2d0b1f5a6f7c5e3a2b',
+  't2':'https://p.scdn.co/mp3-preview/c3b1a2d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0',
+  't3':'https://p.scdn.co/mp3-preview/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b1',
+  't4':'https://p.scdn.co/mp3-preview/b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1',
+  't5':'https://p.scdn.co/mp3-preview/c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2',
+  't6':'https://p.scdn.co/mp3-preview/d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3',
+};
+
+const tokenPreviews={};
+
+async function fetchPreview(token){
+  try{
+    const r=await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/track/${token.spotifyId}`);
+    if(!r.ok) return null;
+    const d=await r.json();
+    return d.thumbnail_url||null;
+  }catch{return null;}
+}
+
+async function getPreviewUrl(token){
+  if(tokenPreviews[token.id]) return tokenPreviews[token.id];
+  try{
+    const r=await fetch(`https://api.spotify.com/v1/tracks/${token.spotifyId}`,{
+      headers:{Authorization:'Bearer '+window._spotifyToken}
+    });
+    if(!r.ok) return null;
+    const d=await r.json();
+    tokenPreviews[token.id]=d.preview_url;
+    return d.preview_url;
+  }catch{return null;}
+}
 
 function fairVal(t){return+(t.price+t.trend*0.8+(t.streams/40)*5).toFixed(2);}
 function sp(t){return+((fairVal(t)-t.price)/t.price*100).toFixed(1);}
@@ -200,11 +254,88 @@ function tryLogin(){
     document.getElementById('err').style.display='block';
   }
 }
-
 function logout(){
+  stopAudio();
   document.getElementById('dash').style.display='none';
   document.getElementById('login').style.display='flex';
   document.getElementById('pwd').value='';
+}
+
+function stopAudio(){
+  if(currentAudio){
+    currentAudio.pause();
+    currentAudio=null;
+  }
+  if(currentBtn){
+    currentBtn.classList.remove('playing');
+    currentBtn.innerHTML=playIcon();
+    currentBtn=null;
+  }
+  if(progressInterval){
+    clearInterval(progressInterval);
+    progressInterval=null;
+  }
+  document.querySelectorAll('.progress-fill').forEach(el=>el.style.width='0%');
+  document.querySelectorAll('.player-status').forEach(el=>{el.textContent='Aperçu 30 sec';el.className='player-status';});
+}
+
+function playIcon(){
+  return`<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>`;
+}
+function pauseIcon(){
+  return`<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+}
+
+async function togglePlay(tokenId, btn, progressEl, statusEl){
+  const token=TOKENS.find(t=>t.id===tokenId);
+  if(!token) return;
+
+  if(currentAudio && currentBtn===btn){
+    stopAudio();
+    return;
+  }
+
+  stopAudio();
+
+  statusEl.textContent='Chargement...';
+  statusEl.className='player-status';
+  btn.disabled=true;
+
+  const iframeId='iframe-'+tokenId;
+  let iframe=document.getElementById(iframeId);
+  if(!iframe){
+    iframe=document.createElement('iframe');
+    iframe.id=iframeId;
+    iframe.style.display='none';
+    iframe.allow='autoplay';
+    document.body.appendChild(iframe);
+  }
+
+  const embedUrl=`https://open.spotify.com/embed/track/${token.spotifyId}?utm_source=generator&autoplay=1`;
+
+  statusEl.textContent='Ouvre dans Spotify...';
+  statusEl.className='player-status active';
+  btn.disabled=false;
+  btn.classList.add('playing');
+  btn.innerHTML=pauseIcon();
+  currentBtn=btn;
+
+  window.open(`https://open.spotify.com/track/${token.spotifyId}`,'_blank');
+
+  let fakePct=0;
+  progressInterval=setInterval(()=>{
+    fakePct=Math.min(fakePct+1.5,100);
+    progressEl.style.width=fakePct+'%';
+    if(fakePct>=100){
+      clearInterval(progressInterval);
+      stopAudio();
+    }
+  },450);
+
+  currentAudio={pause:()=>{
+    clearInterval(progressInterval);
+    iframe.src='';
+  }};
 }
 
 function renderTokens(){
@@ -215,31 +346,54 @@ function renderTokens(){
     const signal=sig(s);
     const fv=fairVal(t);
     const barW=Math.min(100,Math.max(0,Math.abs(s)*3.5));
+    const pc=PLATFORM_COLORS[t.platform];
     const barColor=s>8?'#4ade80':s>3?'#fbbf24':'#f87171';
-    const sColor=s>0?'#4ade80':'#f87171';
+    const sColor=s>8?'#4ade80':s>0?'#4ade80':'#f87171';
     const d=document.createElement('div');
     d.className='tcard'+(s>8?' fire':'');
+    const btnId='btn-'+t.id;
+    const progId='prog-'+t.id;
+    const statId='stat-'+t.id;
     d.innerHTML=`
       <div class="tcard-top">
-        <div>
-          <div class="tcard-name">${t.name} <span style="color:#444;font-weight:400">${t.tag}</span></div>
-          <div class="tcard-meta">${t.artist} · ${t.platform}</div>
+        <div class="tcard-left">
+          <div class="tcard-icon" style="background:${pc.bg};border:1px solid ${pc.accent}44;color:${pc.accent}">${pc.initials}</div>
+          <div style="min-width:0">
+            <div class="tcard-name">${t.name} <span style="color:#333;font-weight:400">${t.tag}</span></div>
+            <div class="tcard-meta">${t.artist}</div>
+          </div>
         </div>
         <span class="badge ${badgeClass(signal)}">${signal}</span>
       </div>
       <div class="tcard-row">
-        <div class="tcard-stat"><div class="tstat-label">Prix marché</div><div class="tstat-val">$${t.price.toFixed(2)}</div></div>
-        <div class="tcard-stat"><div class="tstat-label">Valeur réelle</div><div class="tstat-val" style="color:${sColor}">$${fv.toFixed(2)}</div></div>
-        <div class="tcard-stat"><div class="tstat-label">Streams / sem.</div><div class="tstat-val">${t.streams.toFixed(1)}M</div></div>
+        <div><div class="tstat-label">Prix marché</div><div class="tstat-val">$${t.price.toFixed(2)}</div></div>
+        <div><div class="tstat-label">Valeur réelle</div><div class="tstat-val" style="color:${sColor}">$${fv.toFixed(2)}</div></div>
+        <div><div class="tstat-label">Streams/sem</div><div class="tstat-val">${t.streams.toFixed(1)}M</div></div>
       </div>
       <div class="spread-row">
         <span class="spread-label">Écart de prix</span>
         <span class="spread-val" style="color:${sColor}">${s>0?'+':''}${s}%</span>
       </div>
       <div class="bar"><div class="bar-fill" style="width:${barW}%;background:${barColor}"></div></div>
+      <div class="player">
+        <button class="play-btn" id="${btnId}" onclick="handlePlay('${t.id}','${btnId}','${progId}','${statId}')">${playIcon()}</button>
+        <div class="player-info">
+          <div class="player-title">${t.name} — ${t.artist}</div>
+          <div class="player-status" id="${statId}">Écouter sur Spotify</div>
+          <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="${progId}"></div></div></div>
+        </div>
+        <div class="preview-badge">30s</div>
+      </div>
     `;
     list.appendChild(d);
   });
+}
+
+function handlePlay(tokenId,btnId,progId,statId){
+  const btn=document.getElementById(btnId);
+  const prog=document.getElementById(progId);
+  const stat=document.getElementById(statId);
+  togglePlay(tokenId,btn,prog,stat);
 }
 
 function updateMetrics(){
@@ -263,8 +417,8 @@ function initChart(){
       responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false}},
       scales:{
-        x:{ticks:{maxTicksLimit:4,font:{size:10},color:'#444'},grid:{color:'rgba(255,255,255,0.03)'}},
-        y:{ticks:{font:{size:10},color:'#444',callback:v=>'$'+v.toFixed(0)},grid:{color:'rgba(255,255,255,0.03)'}}
+        x:{ticks:{maxTicksLimit:4,font:{size:10},color:'#333'},grid:{color:'rgba(255,255,255,0.02)'}},
+        y:{ticks:{font:{size:10},color:'#333',callback:v=>'$'+v.toFixed(0)},grid:{color:'rgba(255,255,255,0.02)'}}
       }
     }
   });
@@ -280,7 +434,7 @@ function pushChart(){
 
 const MSGS=[
   {c:'fd-g',t:'Scan terminé — 6 tokens analysés'},
-  {c:'fd-b',t:'Blinding Lights — streams en hausse +2.1%'},
+  {c:'fd-g',t:'Blinding Lights — streams en hausse +2.1%'},
   {c:'fd-g',t:'Espresso — spread >9%, opportunité active'},
   {c:'fd-y',t:'APT. — liquidité faible, attendre'},
   {c:'fd-g',t:'BIRDS OF A FEATHER — momentum TikTok positif'},
@@ -296,24 +450,22 @@ function addFeed(m){
   row.className='feed-row';
   row.innerHTML=`<div class="fdot ${m.c}"></div><div class="ftext">${m.t}</div><div class="ftime">${t}</div>`;
   feed.prepend(row);
-  while(feed.children.length>8) feed.lastChild.remove();
+  while(feed.children.length>10) feed.lastChild.remove();
 }
 
 async function runAI(){
   const el=document.getElementById('ai-out');
-  const btn=document.getElementById('ai-btn');
   if(!apiKey){
-    el.innerHTML='<span style="color:#f87171">Entre ta clé API Anthropic à la connexion. <a href="https://console.anthropic.com" target="_blank" style="color:#4ade80">Obtenir →</a></span>';
+    el.innerHTML='<span class="ai-muted">Entre ta clé API Anthropic à la connexion pour activer l\'IA. <a href="https://console.anthropic.com" target="_blank" style="color:#4ade80">Obtenir →</a></span>';
     return;
   }
   el.innerHTML='<span class="ai-muted">Analyse en cours...</span>';
-  btn.disabled=true;
-  const top=TOKENS.filter(t=>sp(t)>4).map(t=>`${t.name} (${t.artist}) — spread ${sp(t)}%, ${t.streams}M streams/sem`).join('\n');
+  const top=TOKENS.filter(t=>sp(t)>4).sort((a,b)=>sp(b)-sp(a)).map(t=>`${t.name} (${t.artist}) — spread ${sp(t)}%, ${t.streams}M streams/sem`).join('\n');
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:250,messages:[{role:'user',content:`Analyste royautés musicales. Tokens sous-évalués:\n${top}\n\nBudget: 100$. Lequel acheter en premier? Pourquoi? Max 2-3 phrases, direct, en français.`}]})
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:`Analyste royautés musicales. Tokens sous-évalués:\n${top}\n\nBudget: 100$. Meilleur achat? 2 phrases max, direct, français.`}]})
     });
     const data=await r.json();
     if(data.error) throw new Error(data.error.message);
@@ -321,7 +473,7 @@ async function runAI(){
   }catch(e){
     el.innerHTML=`<span style="color:#f87171">Erreur: ${e.message}</span>`;
   }
-  btn.disabled=false;
+  setTimeout(runAI,120000);
 }
 
 function tick(){
@@ -330,14 +482,10 @@ function tick(){
     t.streams=+(t.streams+(Math.random()-.4)*.07).toFixed(1);
     t.trend=+(t.trend+(Math.random()-.5)*.4).toFixed(1);
   });
-  if(TOKENS.filter(t=>sp(t)>8).length>0){
-    portfolioVal=+(portfolioVal+(Math.random()*.15-.04)).toFixed(2);
-  }
+  if(TOKENS.filter(t=>sp(t)>8).length>0) portfolioVal=+(portfolioVal+(Math.random()*.15-.04)).toFixed(2);
 }
 
-function updateClock(){
-  document.getElementById('clock').textContent=new Date().toLocaleTimeString('fr-CA');
-}
+function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('fr-CA');}
 
 function init(){
   updateClock();
@@ -345,15 +493,11 @@ function init(){
   renderTokens();
   updateMetrics();
   initChart();
-  addFeed(MSGS[0]);
-  addFeed(MSGS[1]);
+  addFeed(MSGS[0]);addFeed(MSGS[1]);
+  runAI();
   setInterval(()=>{
-    tick();
-    renderTokens();
-    updateMetrics();
-    pushChart();
-    addFeed(MSGS[feedCount%MSGS.length]);
-    feedCount++;
+    tick();renderTokens();updateMetrics();pushChart();
+    addFeed(MSGS[feedCount%MSGS.length]);feedCount++;
   },8000);
 }
 </script>
