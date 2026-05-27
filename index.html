@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoyaltyArb</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a1a;min-height:100vh}
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-card{background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:2.5rem;width:340px}
+.login-title{font-size:20px;font-weight:500;margin-bottom:4px}
+.login-sub{font-size:13px;color:#888;margin-bottom:1.5rem}
+.login-card input{width:100%;padding:10px 12px;border:1px solid #e0e0db;border-radius:8px;font-size:14px;margin-bottom:10px;outline:none;font-family:inherit}
+.login-card input:focus{border-color:#1D9E75}
+.login-card button{width:100%;padding:10px;background:#1D9E75;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit}
+.login-card button:hover{background:#0F6E56}
+.login-err{font-size:12px;color:#A32D2D;margin-top:8px;display:none}
+.api-section{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid #f0f0eb}
+.api-label{font-size:12px;color:#888;margin-bottom:6px}
+.api-link{font-size:12px;color:#1D9E75;text-decoration:none}
+.dash{display:none;max-width:1100px;margin:0 auto;padding:1.5rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.logo{font-size:16px;font-weight:500;display:flex;align-items:center;gap:8px}
+.pulse{width:8px;height:8px;border-radius:50%;background:#1D9E75;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.clock{font-size:13px;color:#888;font-variant-numeric:tabular-nums}
+.logout-btn{font-size:12px;color:#888;background:none;border:1px solid #e5e5e0;border-radius:6px;padding:5px 10px;cursor:pointer}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.metric{background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:1rem 1.1rem}
+.metric-label{font-size:12px;color:#888;margin-bottom:6px}
+.metric-value{font-size:22px;font-weight:500}
+.metric-sub{font-size:12px;margin-top:4px}
+.up{color:#0F6E56}.down{color:#993C1D}.neutral{color:#888}
+.section-label{font-size:11px;font-weight:500;color:#888;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.tokens{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.tcard{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:1rem 1.1rem;cursor:default}
+.tcard.fire{border-color:#1D9E75;border-width:2px}
+.tcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.tcard-name{font-size:13px;font-weight:500}
+.tcard-artist{font-size:12px;color:#888;margin-top:2px}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.b-buy{background:#E1F5EE;color:#085041}
+.b-watch{background:#FAEEDA;color:#633806}
+.b-hold{background:#f0f0eb;color:#5F5E5A}
+.b-sell{background:#FCEBEB;color:#791F1F}
+.tcard-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:10px}
+.ts-label{font-size:11px;color:#888}
+.ts-val{font-size:13px;font-weight:500;margin-top:2px}
+.bar-row{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:4px}
+.bar-track{height:4px;background:#f0f0eb;border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width .4s ease}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:1rem 1.1rem}
+.ai-inner{font-size:13px;line-height:1.7;min-height:80px;color:#1a1a1a}
+.ai-loading{color:#888;font-style:italic}
+.feed-inner{max-height:200px;overflow-y:auto}
+.feed-row{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #f0f0eb;font-size:13px}
+.feed-row:last-child{border-bottom:none}
+.fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.fd-green{background:#1D9E75}.fd-amber{background:#BA7517}.fd-blue{background:#378ADD}.fd-red{background:#D85A30}
+.ftext{flex:1;color:#1a1a1a}
+.ftime{font-size:11px;color:#888;flex-shrink:0}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn-row button{padding:8px 14px;background:#fff;border:1px solid #e5e5e0;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit}
+.btn-row button:hover{background:#f8f8f6}
+.btn-primary{background:#1D9E75 !important;color:#fff !important;border-color:#1D9E75 !important}
+.btn-primary:hover{background:#0F6E56 !important}
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="login">
+  <div class="login-card">
+    <div class="login-title">RoyaltyArb</div>
+    <div class="login-sub">Dashboard privé — accès restreint</div>
+    <label style="font-size:13px;color:#888;display:block;margin-bottom:6px">Mot de passe</label>
+    <input type="password" id="pwd" placeholder="••••" onkeydown="if(event.key==='Enter')tryLogin()" autofocus>
+    <button onclick="tryLogin()">Connexion</button>
+    <div class="login-err" id="login-err">Mot de passe incorrect</div>
+    <div class="api-section">
+      <div class="api-label">Clé API Anthropic (pour l'analyse IA)</div>
+      <input type="password" id="api-key-input" placeholder="sk-ant-..." style="margin-bottom:4px">
+      <div style="font-size:11px;color:#888">Optionnel — <a class="api-link" href="https://console.anthropic.com" target="_blank">Obtenir une clé gratuite →</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="dash" id="dash">
+  <div class="topbar">
+    <div class="logo"><div class="pulse"></div>RoyaltyArb</div>
+    <div class="topbar-right">
+      <div class="clock" id="clock">--:--:--</div>
+      <button class="logout-btn" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">Capital de départ</div>
+      <div class="metric-value">$100.00</div>
+      <div class="metric-sub neutral">Investi aujourd'hui</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Valeur estimée</div>
+      <div class="metric-value" id="m-val">$100.00</div>
+      <div class="metric-sub up" id="m-pnl">+$0.00</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Opportunités détectées</div>
+      <div class="metric-value" id="m-opp">2</div>
+      <div class="metric-sub neutral">sur 6 tokens scannés</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Meilleur spread</div>
+      <div class="metric-value up" id="m-spread">+18.4%</div>
+      <div class="metric-sub neutral" id="m-spread-name">Blinding Lights</div>
+    </div>
+  </div>
+
+  <div class="section-label">Tokens surveillés — données live simulées</div>
+  <div class="tokens" id="tokens-grid"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="section-label">Analyse IA — banger detector</div>
+      <div class="ai-inner" id="ai-out"><span class="ai-loading">Clique sur "Analyser" pour lancer l'IA...</span></div>
+      <div style="margin-top:12px">
+        <button class="btn-primary" onclick="runAI()" id="ai-btn">Analyser les bangers</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Portfolio (temps réel)</div>
+      <div style="position:relative;width:100%;height:160px">
+        <canvas id="pgraph" role="img" aria-label="Graphique portfolio en temps réel">Portfolio en temps réel</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Activité bot</div>
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="feed-inner" id="feed"></div>
+  </div>
+
+  <div class="btn-row">
+    <button onclick="runAI()">Relancer analyse IA</button>
+    <button onclick="window.open('https://royal.io','_blank')">Ouvrir Royal.io →</button>
+    <button onclick="window.open('https://anotherblock.io','_blank')">Ouvrir AnotherBlock →</button>
+  </div>
+</div>
+
+<script>
+const PASSWORD = '2244';
+let apiKey = '';
+
+const TOKENS = [
+  {name:'Blinding Lights #4412',artist:'The Weeknd',platform:'Royal.io',mktPrice:87.5,streams7d:41.2,trendPct:12.3,signal:'BUY'},
+  {name:'Espresso #0091',artist:'Sabrina Carpenter',platform:'AnotherBlock',mktPrice:212,streams7d:58.9,trendPct:9.1,signal:'BUY'},
+  {name:'Levitating #2207',artist:'Dua Lipa',platform:'Royal.io',mktPrice:143,streams7d:29.4,trendPct:3.2,signal:'WATCH'},
+  {name:'APT. #8834',artist:'Rose & Bruno Mars',platform:'AnotherBlock',mktPrice:319,streams7d:72.1,trendPct:-4.8,signal:'HOLD'},
+  {name:'BIRDS OF A FEATHER #0331',artist:'Billie Eilish',platform:'Royal.io',mktPrice:178,streams7d:44.6,trendPct:6.7,signal:'WATCH'},
+  {name:'Die With A Smile #1102',artist:'Lady Gaga & Bruno Mars',platform:'AnotherBlock',mktPrice:244,streams7d:61.3,trendPct:-2.1,signal:'HOLD'},
+];
+
+let portfolioVal = 100;
+let chartInst = null;
+let feedCount = 0;
+let startTime = Date.now();
+
+function tryLogin(){
+  const pwd = document.getElementById('pwd').value;
+  if(pwd === PASSWORD){
+    apiKey = document.getElementById('api-key-input').value.trim();
+    document.getElementById('login').style.display='none';
+    document.getElementById('dash').style.display='block';
+    initDash();
+  } else {
+    document.getElementById('login-err').style.display='block';
+  }
+}
+
+function logout(){
+  document.getElementById('dash').style.display='none';
+  document.getElementById('login').style.display='flex';
+  document.getElementById('pwd').value='';
+}
+
+function calcFairValue(t){
+  return +(t.mktPrice + t.trendPct*0.8 + (t.streams7d/40)*5).toFixed(2);
+}
+
+function spread(t){
+  return +((calcFairValue(t)-t.mktPrice)/t.mktPrice*100).toFixed(1);
+}
+
+function renderTokens(){
+  const grid = document.getElementById('tokens-grid');
+  grid.innerHTML='';
+  TOKENS.forEach(t=>{
+    const sp = spread(t);
+    const fv = calcFairValue(t);
+    const fire = sp>8;
+    const barW = Math.min(100,Math.max(0,Math.abs(sp)*3.5));
+    const barColor = sp>8?'#1D9E75':sp>3?'#BA7517':'#D85A30';
+    const spColor = sp>0?'#0F6E56':'#993C1D';
+    const badgeMap={BUY:'b-buy',WATCH:'b-watch',HOLD:'b-hold',SELL:'b-sell'};
+    const d = document.createElement('div');
+    d.className='tcard'+(fire?' fire':'');
+    d.innerHTML=`
+      <div class="tcard-top">
+        <div><div class="tcard-name">${t.name}</div><div class="tcard-artist">${t.artist} · ${t.platform}</div></div>
+        <span class="badge ${badgeMap[t.signal]||'b-hold'}">${t.signal}</span>
+      </div>
+      <div class="tcard-stats">
+        <div><div class="ts-label">Prix marché</div><div class="ts-val">$${t.mktPrice.toFixed(2)}</div></div>
+        <div><div class="ts-label">Valeur réelle</div><div class="ts-val" style="color:${spColor}">$${fv.toFixed(2)}</div></div>
+        <div><div class="ts-label">Streams 7j</div><div class="ts-val">${t.streams7d.toFixed(1)}M</div></div>
+      </div>
+      <div class="bar-row"><span>Spread</span><span style="color:${spColor};font-weight:500">${sp>0?'+':''}${sp}%</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${barW}%;background:${barColor}"></div></div>
+    `;
+    grid.appendChild(d);
+  });
+}
+
+function updateMetrics(){
+  const opps = TOKENS.filter(t=>spread(t)>8).length;
+  const best = TOKENS.reduce((a,b)=>spread(a)>spread(b)?a:b);
+  const pnl = portfolioVal - 100;
+  document.getElementById('m-val').textContent='$'+portfolioVal.toFixed(2);
+  document.getElementById('m-pnl').textContent=(pnl>=0?'+':'')+pnl.toFixed(2)+'$';
+  document.getElementById('m-pnl').className='metric-sub '+(pnl>=0?'up':'down');
+  document.getElementById('m-opp').textContent=opps;
+  document.getElementById('m-spread').textContent=(spread(best)>0?'+':'')+spread(best)+'%';
+  document.getElementById('m-spread-name').textContent=best.name.split(' #')[0];
+}
+
+function initChart(){
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  chartInst = new Chart(document.getElementById('pgraph'),{
+    type:'line',
+    data:{
+      labels:['Départ'],
+      datasets:[{label:'Portfolio',data:[100],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.06)',fill:true,tension:0.4,pointRadius:0,borderWidth:2}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{maxTicksLimit:5,font:{size:10},color:'#888'},grid:{display:false}},
+        y:{ticks:{font:{size:10},color:'#888',callback:v=>'$'+v.toFixed(0)},grid:{color:'rgba(0,0,0,0.04)'}}
+      }
+    }
+  });
+}
+
+function pushChart(){
+  const e = Math.floor((Date.now()-startTime)/1000);
+  chartInst.data.labels.push(e+'s');
+  chartInst.data.datasets[0].data.push(+portfolioVal.toFixed(2));
+  if(chartInst.data.labels.length>50){chartInst.data.labels.shift();chartInst.data.datasets[0].data.shift();}
+  chartInst.update('none');
+}
+
+const FEED_MSGS = [
+  {dot:'fd-green',text:'Scan complet — 6 tokens analysés'},
+  {dot:'fd-blue',text:'Streams Blinding Lights en hausse +2.1% cette heure'},
+  {dot:'fd-green',text:'Espresso — spread au-dessus de 9%, opportunité maintenue'},
+  {dot:'fd-amber',text:'APT. — marché secondaire peu liquide, patience recommandée'},
+  {dot:'fd-green',text:'BIRDS OF A FEATHER — momentum positif détecté sur TikTok'},
+  {dot:'fd-blue',text:'Levitating — streams stables, aucune action requise'},
+  {dot:'fd-amber',text:'Die With A Smile — spread négatif, éviter pour l\'instant'},
+  {dot:'fd-green',text:'Blinding Lights — meilleur spread actif, signal fort d\'achat'},
+];
+
+function addFeed(msg){
+  const feed = document.getElementById('feed');
+  const t = new Date().toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const row = document.createElement('div');
+  row.className='feed-row';
+  row.innerHTML=`<div class="fdot ${msg.dot}"></div><div class="ftext">${msg.text}</div><div class="ftime">${t}</div>`;
+  feed.prepend(row);
+  while(feed.children.length>12) feed.lastChild.remove();
+}
+
+async function runAI(){
+  const el = document.getElementById('ai-out');
+  const btn = document.getElementById('ai-btn');
+  if(!apiKey){
+    el.innerHTML='<span style="color:#993C1D">Aucune clé API — entre ta clé Anthropic à la connexion pour activer l\'IA. <a href="https://console.anthropic.com" target="_blank" style="color:#1D9E75">Obtenir une clé →</a></span>';
+    return;
+  }
+  el.innerHTML='<span class="ai-loading">Analyse en cours...</span>';
+  btn.disabled=true;
+  const topTokens = TOKENS.filter(t=>spread(t)>4).map(t=>`${t.name} (${t.artist}) spread ${spread(t)}%, streams ${t.streams7d}M/semaine`).join('\n');
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        messages:[{role:'user',content:`Tu es un analyste de royautés musicales expert. Voici les tokens sous-évalués détectés:\n${topTokens}\n\nAvec un budget de 100$, lequel achètes-tu en premier et pourquoi? Sois direct, 3 phrases max. Réponds en français.`}]
+      })
+    });
+    const data = await resp.json();
+    if(data.error){throw new Error(data.error.message);}
+    el.textContent = data.content?.find(b=>b.type==='text')?.text || 'Analyse indisponible.';
+  }catch(e){
+    el.innerHTML=`<span style="color:#993C1D">Erreur: ${e.message}</span>`;
+  }
+  btn.disabled=false;
+}
+
+function tickMarket(){
+  TOKENS.forEach(t=>{
+    t.mktPrice=+(t.mktPrice+(Math.random()-0.48)*0.4).toFixed(2);
+    t.streams7d=+(t.streams7d+(Math.random()-0.4)*0.06).toFixed(1);
+    t.trendPct=+(t.trendPct+(Math.random()-0.5)*0.3).toFixed(1);
+    const sp=spread(t);
+    t.signal=sp>8?'BUY':sp>3?'WATCH':sp<-3?'SELL':'HOLD';
+  });
+  if(TOKENS.filter(t=>t.signal==='BUY').length>0){
+    portfolioVal=+(portfolioVal+(Math.random()*0.12-0.03)).toFixed(2);
+  }
+}
+
+function updateClock(){
+  document.getElementById('clock').textContent=new Date().toLocaleTimeString('fr-CA');
+}
+
+function initDash(){
+  updateClock();
+  setInterval(updateClock,1000);
+  renderTokens();
+  updateMetrics();
+  initChart();
+  addFeed(FEED_MSGS[0]);
+  addFeed(FEED_MSGS[1]);
+  setInterval(()=>{
+    tickMarket();
+    renderTokens();
+    updateMetrics();
+    pushChart();
+    addFeed(FEED_MSGS[feedCount%FEED_MSGS.length]);
+    feedCount++;
+  },8000);
+}
+</script>
+</body>
+</html>
