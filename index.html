@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#090909">
+
+  <meta
+    name="description"
+    content="Tinted skincare. Made for men. Get early access to GAULD."
+  >
+
+  <title>GAULD — Tinted skincare. Made for men.</title>
+
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23090909'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='Arial,sans-serif' font-size='44' fill='%23c7a16b'%3EG%3C/text%3E%3C/svg%3E"
+  >
+
+  <link
+    rel="preload"
+    as="image"
+    href="media/acteur.png"
+    fetchpriority="high"
+  >
+
+  <style>
+    :root {
+      color-scheme: dark;
+
+      --background: #090909;
+      --text: #f6f4ef;
+      --gold: #c7a16b;
+
+      --edge: clamp(24px, 6.15vw, 42px);
+
+      /* Cadrage de ton image */
+      --actor-right: -8px;
+      --actor-height: 100%;
+
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-synthesis: none;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--background);
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--background);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* PAGE */
+
+    .landing {
+      position: relative;
+      isolation: isolate;
+
+      width: 100%;
+      height: 100vh;
+      height: 100svh;
+      min-height: 720px;
+
+      overflow: hidden;
+      background: var(--background);
+    }
+
+    /* ACTEUR */
+
+    .portrait {
+      position: absolute;
+      z-index: -3;
+      inset: 0;
+
+      margin: 0;
+
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .actor {
+      position: absolute;
+      right: var(--actor-right);
+      bottom: 0;
+
+      display: block;
+
+      width: auto;
+      height: var(--actor-height);
+
+      max-width: none;
+      max-height: 220vw;
+
+      filter: brightness(.84) saturate(.83) contrast(1.035);
+    }
+
+    /* DÉGRADÉS */
+
+    .landing::before,
+    .landing::after {
+      content: "";
+
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+
+      pointer-events: none;
+    }
+
+    .landing::before {
+      background: linear-gradient(
+        90deg,
+        rgb(9 9 9 / .16),
+        transparent 56%
+      );
+    }
+
+    .landing::after {
+      background: linear-gradient(
+        0deg,
+        #090909 0%,
+        rgb(9 9 9 / .97) 9%,
+        rgb(9 9 9 / .78) 17%,
+        rgb(9 9 9 / .13) 29%,
+        transparent 38%
+      );
+    }
+
+    /* LOGO */
+
+    .brand {
+      position: absolute;
+      top: max(36px, env(safe-area-inset-top));
+      left: var(--edge);
+
+      margin: 0;
+      padding-right: .01em;
+
+      color: var(--gold);
+
+      font-size: 25px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: .31em;
+    }
+
+    /* TITRE */
+
+    .intro {
+      position: absolute;
+      top: clamp(120px, 16svh, 176px);
+      left: var(--edge);
+
+      max-width: calc(100% - var(--edge) * 2);
+    }
+
+    h1 {
+      margin: 0;
+
+      font-size: clamp(28px, 7.75vw, 40px);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -.027em;
+    }
+
+    h1 span {
+      display: block;
+    }
+
+    .description {
+      margin: 14px 0 0;
+
+      color: #d4d1ca;
+
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.5;
+      letter-spacing: .005em;
+    }
+
+    /* FORMULAIRE */
+
+    .signup {
+      position: absolute;
+      bottom: max(30px, env(safe-area-inset-bottom));
+      left: var(--edge);
+
+      width: min(310px, calc(100% - var(--edge) * 2));
+      margin: 0;
+    }
+
+    .field-label {
+      position: absolute;
+
+      width: 1px;
+      height: 1px;
+
+      margin: -1px;
+      padding: 0;
+
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+
+      border: 0;
+    }
+
+    .email {
+      display: block;
+
+      width: 100%;
+      height: 53px;
+
+      padding: 0 17px;
+
+      border: 1px solid #56524b;
+      border-radius: 2px;
+      outline: 0;
+
+      color: var(--text);
+      background: rgb(12 12 12 / .88);
+      caret-color: var(--gold);
+
+      font-size: 16px;
+      line-height: 1.25;
+
+      transition:
+        border-color 180ms ease,
+        background 180ms ease;
+    }
+
+    .email::placeholder {
+      color: #a6a39c;
+      opacity: 1;
+    }
+
+    .email:hover {
+      border-color: #777066;
+    }
+
+    .email:focus {
+      border-color: #d6b57e;
+      background: #12110f;
+    }
+
+    .email:focus-visible {
+      outline: 2px solid #d6b57e;
+      outline-offset: 3px;
+    }
+
+    .email:autofill {
+      color: var(--text);
+      background-color: #12110f;
+    }
+
+    .email:-webkit-autofill {
+      -webkit-text-fill-color: var(--text);
+      -webkit-box-shadow: 0 0 0 1000px #12110f inset;
+      caret-color: var(--gold);
+    }
+
+    /* BOUTON */
+
+    .submit {
+      position: relative;
+      display: block;
+
+      width: 100%;
+      min-height: 54px;
+
+      margin-top: 10px;
+      padding: 15px 12px;
+
+      border: 1px solid #c7a774;
+      border-radius: 2px;
+
+      color: #17120c;
+
+      background: linear-gradient(
+        113deg,
+        #d8b981 0%,
+        #c9a36b 48%,
+        #b58f56 100%
+      );
+
+      box-shadow: inset 0 1px 0 rgb(255 255 255 / .14);
+
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: .16em;
+
+      cursor: pointer;
+
+      transition:
+        filter 180ms ease,
+        transform 180ms ease;
+    }
+
+    @media (hover: hover) {
+      .submit:hover {
+        filter: brightness(1.1);
+      }
+    }
+
+    .submit:active {
+      transform: translateY(1px);
+    }
+
+    .submit:focus-visible {
+      outline: 2px solid #f6f4ef;
+      outline-offset: 4px;
+    }
+
+    .submit:disabled {
+      cursor: wait;
+      opacity: .72;
+    }
+
+    .submit[data-complete="true"] {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .status {
+      margin: 12px 0 0;
+
+      color: #e1d5bf;
+
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .status:empty {
+      display: none;
+    }
+
+    /* TABLETTE */
+
+    @media (min-width: 600px) and (max-width: 899px) {
+      :root {
+        --edge: 48px;
+      }
+
+      .intro {
+        top: 23%;
+      }
+
+      h1 {
+        font-size: 46px;
+      }
+
+      .signup {
+        bottom: 54px;
+        width: 330px;
+      }
+
+      .brand {
+        top: 44px;
+        font-size: 30px;
+      }
+
+      .landing::before {
+        background: linear-gradient(
+          90deg,
+          #090909 0%,
+          rgb(9 9 9 / .5) 25%,
+          transparent 62%
+        );
+      }
+    }
+
+    /* ORDINATEUR */
+
+    @media (min-width: 900px) {
+      :root {
+        --edge: clamp(64px, 8vw, 160px);
+        --actor-height: 112%;
+        --actor-right: 0px;
+      }
+
+      .landing {
+        min-height: 720px;
+      }
+
+      .actor {
+        max-height: 1300px;
+      }
+
+      .landing::before {
+        background: linear-gradient(
+          90deg,
+          #090909 0%,
+          #090909 29%,
+          rgb(9 9 9 / .8) 42%,
+          rgb(9 9 9 / .14) 59%,
+          transparent 72%
+        );
+      }
+
+      .landing::after {
+        background: linear-gradient(
+          0deg,
+          rgb(9 9 9 / .36),
+          transparent 28%
+        );
+      }
+
+      .brand {
+        top: 52px;
+
+        font-size: 29px;
+        letter-spacing: .36em;
+      }
+
+      .intro {
+        top: 29%;
+        max-width: 57%;
+      }
+
+      h1 {
+        font-size: clamp(45px, 4.4vw, 76px);
+        line-height: 1.06;
+        letter-spacing: -.035em;
+      }
+
+      .description {
+        margin-top: 21px;
+        font-size: 18px;
+      }
+
+      .signup {
+        top: calc(
+          29% + clamp(45px, 4.4vw, 76px) * 3.18 + 100px
+        );
+
+        bottom: auto;
+        width: 360px;
+      }
+
+      .email {
+        height: 56px;
+      }
+
+      .submit {
+        min-height: 56px;
+        margin-top: 12px;
+        font-size: 14px;
+      }
+    }
+
+    @media (min-width: 900px) and (max-height: 780px) {
+      .intro {
+        top: 23%;
+      }
+
+      .signup {
+        top: calc(
+          23% + clamp(45px, 4.4vw, 76px) * 3.18 + 88px
+        );
+      }
+    }
+
+    /* PETITS MOBILES */
+
+    @media (max-width: 359px) {
+      :root {
+        --edge: 20px;
+        --actor-right: -10px;
+      }
+
+      .intro {
+        top: 114px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .description {
+        max-width: 230px;
+      }
+
+      .signup {
+        bottom: 24px;
+      }
+
+      .brand {
+        font-size: 23px;
+      }
+    }
+
+    /* MOBILE EN PAYSAGE */
+
+    @media (max-width: 899px) and (orientation: landscape) {
+      .landing {
+        min-height: 620px;
+      }
+
+      .actor {
+        height: 112%;
+      }
+
+      .intro {
+        top: 135px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .signup {
+        bottom: 60px;
+        width: 290px;
+      }
+
+      .landing::before {
+        background: linear-gradient(
+          90deg,
+          #090909 0%,
+          rgb(9 9 9 / .8) 35%,
+          transparent 75%
+        );
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="landing" aria-labelledby="headline">
+
+    <figure class="portrait">
+      <img
+        class="actor"
+        src="media/acteur.png"
+        width="1011"
+        height="1555"
+        alt="GAULD founder holding a black and gold tube of tinted sunscreen."
+        fetchpriority="high"
+        decoding="async"
+      >
+    </figure>
+
+    <header class="brand" aria-label="GAULD">
+      GAULD
+    </header>
+
+    <section class="intro">
+      <h1 id="headline">
+        <span>TINTED</span>
+        <span>SKINCARE.</span>
+        <span>MADE FOR MEN.</span>
+      </h1>
+
+      <p class="description">
+        Subtle coverage. Daily SPF.
+      </p>
+    </section>
+
+    <form
+      class="signup"
+      id="early-access"
+      aria-label="Get early access to GAULD"
+    >
+      <label class="field-label" for="email">
+        Email address
+      </label>
+
+      <input
+        class="email"
+        id="email"
+        name="email"
+        type="email"
+        placeholder="Enter your email"
+        autocomplete="email"
+        inputmode="email"
+        autocapitalize="none"
+        spellcheck="false"
+        maxlength="254"
+        required
+        aria-describedby="signup-status"
+      >
+
+      <button
+        class="submit"
+        id="signup-submit"
+        type="submit"
+      >
+        GET EARLY ACCESS
+      </button>
+
+      <p
+        class="status"
+        id="signup-status"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+      <noscript>
+        <p class="status">
+          Please enable JavaScript to request early access.
+        </p>
+      </noscript>
+    </form>
+
+  </main>
+
+  <script>
+    /*
+      COLLECTE DE COURRIELS
+
+      Remplace la valeur vide par l'URL de ton service de formulaire.
+
+      Le service doit accepter une requête POST JSON :
+      {
+        "email": "adresse@example.com",
+        "source": "gauld-early-access"
+      }
+
+      Tant que cette URL est vide, aucun courriel n'est enregistré.
+    */
+
+    const WAITLIST_ENDPOINT = "";
+
+    const form = document.getElementById("early-access");
+    const emailInput = document.getElementById("email");
+    const submitButton = document.getElementById("signup-submit");
+    const status = document.getElementById("signup-status");
+
+    let submitting = false;
+    let complete = false;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (submitting || complete) return;
+
+      emailInput.value = emailInput.value.trim();
+
+      if (!form.reportValidity()) return;
+
+      if (!WAITLIST_ENDPOINT) {
+        status.textContent =
+          "Early access is not open yet. Please check back soon.";
+
+        return;
+      }
+
+      submitting = true;
+      submitButton.disabled = true;
+      submitButton.textContent = "JOINING…";
+
+      form.setAttribute("aria-busy", "true");
+
+      status.textContent = "";
+
+      const controller = new AbortController();
+
+      const timeout = setTimeout(() => {
+        controller.abort();
+      }, 12000);
+
+      try {
+        const response = await fetch(WAITLIST_ENDPOINT, {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+
+          body: JSON.stringify({
+            email: emailInput.value,
+            source: "gauld-early-access"
+          }),
+
+          signal: controller.signal
+        });
+
+        const result = await response.json().catch(() => ({}));
+
+        if (
+          !response.ok ||
+          result.success === false ||
+          result.ok === false
+        ) {
+          throw new Error("The signup was not accepted.");
+        }
+
+        complete = true;
+
+        submitButton.textContent = "YOU’RE ON THE LIST";
+        submitButton.dataset.complete = "true";
+
+        emailInput.readOnly = true;
+
+        status.textContent =
+          "We’ll let you know when GAULD launches.";
+
+      } catch {
+        status.textContent =
+          "We couldn’t save your email. Please try again.";
+
+        submitButton.textContent = "GET EARLY ACCESS";
+
+      } finally {
+        clearTimeout(timeout);
+
+        submitting = false;
+        submitButton.disabled = complete;
+
+        form.removeAttribute("aria-busy");
+      }
+    });
+
+    emailInput.addEventListener("input", () => {
+      if (!submitting && !complete) {
+        status.textContent = "";
+      }
+    });
+  </script>
+</body>
+</html>
