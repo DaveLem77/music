@@ -12,7 +12,7 @@
 
   <meta
     name="description"
-    content="Tinted sunscreen. Made for men. Get early access to GAULD."
+    content="Tinted skincare. Made for men. Get early access to GAULD."
   >
 
   <title>GAULD — Tinted skincare. Made for men.</title>
@@ -145,10 +145,10 @@
       background: linear-gradient(
         0deg,
         #090909 0%,
-        rgb(9 9 9 / .97) 9%,
-        rgb(9 9 9 / .78) 17%,
-        rgb(9 9 9 / .13) 29%,
-        transparent 38%
+        rgb(9 9 9 / .97) 12%,
+        rgb(9 9 9 / .78) 21%,
+        rgb(9 9 9 / .13) 33%,
+        transparent 42%
       );
     }
 
@@ -213,6 +213,58 @@
 
       width: min(310px, calc(100% - var(--edge) * 2));
       margin: 0;
+    }
+
+    /* COMPTE À REBOURS */
+
+    .countdown {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      margin: 0 0 18px;
+
+      color: var(--text);
+
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: .1em;
+      font-variant-numeric: tabular-nums;
+
+      text-shadow: 0 1px 14px rgb(9 9 9 / .85);
+    }
+
+    .countdown[hidden] {
+      display: none;
+    }
+
+    .countdown-lock {
+      flex: none;
+
+      width: 14px;
+      height: 16px;
+
+      color: var(--gold);
+    }
+
+    .countdown-time {
+      display: flex;
+      gap: 13px;
+    }
+
+    .countdown-value {
+      display: inline-block;
+      min-width: 2ch;
+    }
+
+    .countdown-label {
+      margin-left: 4px;
+
+      color: var(--gold);
+
+      font-size: 11px;
+      letter-spacing: .14em;
     }
 
     .field-label {
@@ -596,6 +648,46 @@
       id="early-access"
       aria-label="Get early access to GAULD"
     >
+      <div
+        class="countdown"
+        id="countdown"
+        role="timer"
+        aria-label="Time until launch"
+        hidden
+      >
+        <svg
+          class="countdown-lock"
+          viewBox="0 0 14 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.3"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M3.75 7V4.6a3.25 3.25 0 0 1 6.5 0V7" />
+          <rect x="1.65" y="7" width="10.7" height="8.35" rx="1.5" />
+          <path d="M7 10.4v1.7" />
+        </svg>
+
+        <span class="countdown-time">
+          <span>
+            <span class="countdown-value" data-unit="days">00</span><span class="countdown-label">D</span>
+          </span>
+
+          <span>
+            <span class="countdown-value" data-unit="hours">00</span><span class="countdown-label">H</span>
+          </span>
+
+          <span>
+            <span class="countdown-value" data-unit="minutes">00</span><span class="countdown-label">M</span>
+          </span>
+
+          <span>
+            <span class="countdown-value" data-unit="seconds">00</span><span class="countdown-label">S</span>
+          </span>
+        </span>
+      </div>
+
       <label class="field-label" for="email">
         Email address
       </label>
@@ -641,20 +733,71 @@
 
   <script>
     /*
-      COLLECTE DE COURRIELS
+      NOTIFICATION PAR COURRIEL
 
-      Remplace la valeur vide par l'URL de ton service de formulaire.
+      Chaque inscription t'est envoyée par courriel à l'adresse
+      ci-dessous, via FormSubmit (gratuit, aucun compte à créer).
 
-      Le service doit accepter une requête POST JSON :
-      {
-        "email": "adresse@example.com",
-        "source": "gauld-early-access"
-      }
-
-      Tant que cette URL est vide, aucun courriel n'est enregistré.
+      Une seule fois : à la toute première inscription, FormSubmit
+      envoie un courriel d'activation à cette adresse. Clique le lien
+      dedans, et toutes les inscriptions suivantes arrivent toutes seules.
     */
 
-    const WAITLIST_ENDPOINT = "";
+    const NOTIFY_EMAIL = "dlemieux730@gmail.com";
+
+    const WAITLIST_ENDPOINT =
+      "https://formsubmit.co/ajax/" + NOTIFY_EMAIL;
+
+    /*
+      COMPTE À REBOURS
+
+      Fin : 1er novembre 2026 à 18 h, heure du Québec.
+      (-05:00, parce que l'heure recule dans la nuit du 1er novembre.)
+    */
+
+    const LAUNCH_TIME = Date.parse("2026-11-01T18:00:00-05:00");
+
+    const countdown = document.getElementById("countdown");
+
+    const countdownValues = {
+      days: countdown.querySelector('[data-unit="days"]'),
+      hours: countdown.querySelector('[data-unit="hours"]'),
+      minutes: countdown.querySelector('[data-unit="minutes"]'),
+      seconds: countdown.querySelector('[data-unit="seconds"]')
+    };
+
+    const twoDigits = (value) => String(value).padStart(2, "0");
+
+    function updateCountdown() {
+      const remaining = LAUNCH_TIME - Date.now();
+
+      if (remaining <= 0) {
+        countdown.hidden = true;
+
+        return;
+      }
+
+      const totalSeconds = Math.floor(remaining / 1000);
+
+      countdownValues.days.textContent =
+        twoDigits(Math.floor(totalSeconds / 86400));
+
+      countdownValues.hours.textContent =
+        twoDigits(Math.floor(totalSeconds / 3600) % 24);
+
+      countdownValues.minutes.textContent =
+        twoDigits(Math.floor(totalSeconds / 60) % 60);
+
+      countdownValues.seconds.textContent =
+        twoDigits(totalSeconds % 60);
+
+      countdown.hidden = false;
+
+      // Prochaine mise à jour pile au changement de seconde.
+      setTimeout(updateCountdown, (remaining % 1000) + 1);
+    }
+
+    updateCountdown();
 
     const form = document.getElementById("early-access");
     const emailInput = document.getElementById("email");
@@ -673,7 +816,7 @@
 
       if (!form.reportValidity()) return;
 
-      if (!WAITLIST_ENDPOINT) {
+      if (!NOTIFY_EMAIL) {
         status.textContent =
           "Early access is not open yet. Please check back soon.";
 
@@ -705,7 +848,9 @@
 
           body: JSON.stringify({
             email: emailInput.value,
-            source: "gauld-early-access"
+            source: "gauld-early-access",
+            _subject: "GAULD — nouvelle inscription",
+            _template: "table"
           }),
 
           signal: controller.signal
@@ -715,7 +860,7 @@
 
         if (
           !response.ok ||
-          result.success === false ||
+          String(result.success) === "false" ||
           result.ok === false
         ) {
           throw new Error("The signup was not accepted.");
